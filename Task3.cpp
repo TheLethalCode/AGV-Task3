@@ -48,6 +48,7 @@ int main(int argc, char const *argv[]) {
   R<<0.1,0,0,0.1;
   F<<1,time_step,0,1;
 
+  cout<<"\nTIME STEP = "<<time_step<<endl<<endl;
   cout<<endl<<"INITIALLY \n\nPOSITION = ( "<<Px<<" , "<<Py<<" )"<<endl;
   cout<<"VELOCITY = "<<Vx<<"i + "<<Vy<<"j"<<endl;
   cout<<"UNCERTAINITY MATRIX :- \n"<<te_P<<endl;

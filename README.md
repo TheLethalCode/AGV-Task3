@@ -58,8 +58,14 @@ Compile the Task
 
 You have to enter the text file with the sensor readings as an command line argument. Another optional command line argument is the timestep. If it is not entered the program prompts the user to input it.
 
-`./a.out Data1.txt 1.34`
+`./a.out Data1.txt 0.89`
 
 You will be asked to input the bot's initial coordinates and velocity.
 
-The program prints the bot's positon, velocity and their uncertainity after every time step.
+The program then prints the bot's positon, velocity and their uncertainity after every time step.
+
+Output for time step = 0.89 s
+
+![Alt text](Output1.png)
+
+![Alt text](Output2.png)
