@@ -42,11 +42,14 @@ int main(int argc, char const *argv[]) {
   cout<<"Enter initial x-velocity and y-velocity :-";
   cin>>Vx>>Vy;
 
-  MatrixXd P(2,2),te_P(2,2),X(2,2),te_X(2,2),R(2,2),F(2,2);
+  MatrixXd P(4,4),te_P(4,4),X(4,1),te_X(4,1),R(2,2),F(4,4),H(2,4),Ht(4,2),Ft(4,4);
   te_X<<Px,Py,Vx,Vy;
-  te_P<<1000,0,0,1000;                    // Deg=fining all the necessary matrices
+  te_P<<1000,0,0,0,0,1000,0,0,0,0,1000,0,0,0,0,1000;  // Defining all the necessary matrices
   R<<0.1,0,0,0.1;
-  F<<1,time_step,0,1;
+  F<<1,0,time_step,0,0,1,0,time_step,0,0,1,0,0,0,0,1;
+  H<<1,0,0,0,0,1,0,0;
+  Ht=H.transpose();
+  Ft=F.transpose();
 
   cout<<"\nTIME STEP = "<<time_step<<endl<<endl;
   cout<<endl<<"INITIALLY \n\nPOSITION = ( "<<Px<<" , "<<Py<<" )"<<endl;
@@ -56,33 +59,30 @@ int main(int argc, char const *argv[]) {
 
   for(vector< pair<float,float> > :: iterator it = Data.begin();it!=Data.end();it++){
     time1+=time_step;
-    Vx = it->fi - Px;
-    Vx/=time_step;             // Calculating the velocity based on the sensor readings
-    Vy = it->se - Py;
-    Vy/=time_step;
+
     Px = it->fi;
     Py = it->se;
 
-    MatrixXd Z(2,2);               // Defining the matrix for the sensor readings
-    Z<<Px,Py,Vx,Vy;
+    MatrixXd Z(2,1);               // Defining the matrix for the sensor readings
+    Z<<Px,Py;
 
     X=F*te_X;                // Calculating the new state and uncertainity from prior knowledge
-    P= F*(te_P*(F.transpose()));
+    P= F*(te_P*Ft);
 
-    MatrixXd K(2,2),PRi(2,2);
-    PRi = P + R;              // Calculating K
-    K = P*(PRi.inverse());
+    MatrixXd K(4,2),PRi(2,2);
+    PRi = (H*P*Ht + R);              // Calculating K
+    K = P*Ht*(PRi.inverse());
 
-    X = X + K*(Z-X);         // Combining both the data
-    P = P - K*P;
+    X = X + K*(Z-H*X);         // Combining both the data
+    P = P - K*H*P;
 
     te_X = X;             // The prior state acts as the source  for the next state
     te_P = P;
 
     // Printing them
-    cout<<fixed<<setprecision(4)<<"AT TIME = "<<time1<<" \n\nPOSITION = ( "<<X(0,0)<<" , "<<X(0,1)<<" )"<<endl;
-    cout<<fixed<<setprecision(4)<<"VELOCITY = "<<X(1,0)<<"i + "<<X(1,1)<<"j"<<endl;
-    cout<<fixed<<setprecision(4)<<"UNCERTAINITY MATRIX :- \n"<<P<<endl<<endl;
+    cout<<fixed<<setprecision(6)<<"AT TIME = "<<time1<<" \n\nPOSITION = ( "<<X(0,0)<<" , "<<X(1,0)<<" )"<<endl;
+    cout<<fixed<<setprecision(6)<<"VELOCITY = "<<X(2,0)<<"i + "<<X(3,0)<<"j"<<endl;
+    cout<<fixed<<setprecision(6)<<"UNCERTAINITY MATRIX :- \n"<<P<<endl<<endl;
     cout<<"============================================================================="<<endl;
 
   }

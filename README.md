@@ -25,13 +25,13 @@ Therefore P1 = F * P0 \* F', where F' is F transpose
 
 Let the sensor readings be Z1 and its uncertainity be R.
 
-Let's define a matrix K = P*((P+R)^-1).
+Let's define a matrix K = P1*H'\*((H\*P1\*H'+R)^-1) , where Z=H\*X and H' is H transpose
 
 Combining the Gausians of both the sensor readings and the state derived from prior knowledge,
 
-X1F = X1 + K*(X1 - Z1)
+X1F = X1 + K*(Z1-H\*X1)
 
-P1F = P1 - K*P1
+P1F = P1 - K*H\*P1
 
 where X1F is a state with a better accuracy than both the initial readings.
 
@@ -64,8 +64,6 @@ You will be asked to input the bot's initial coordinates and velocity.
 
 The program then prints the bot's positon, velocity and their uncertainity after every time step.
 
-Output for time step = 0.89 s
+Output for time step = 1.47 s is given in the "Output.txt" file
 
-![Alt text](Output1.png)
 
-![Alt text](Output2.png)
