@@ -17,7 +17,7 @@ accurate reading.
 
 ## Applying Kalmann Filter
 
-Let's say the given time step is dt , the initial state is X0, the initial uncertainity is P0.\
+Let's say the given time step is dt , the initial state is X0, the initial uncertainity is P0.
 
 Then without the sensor readings, X1 = F*X0 , where F operates on X such that based on its velocity and time step, it gets the next state.  
 
