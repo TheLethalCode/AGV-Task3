@@ -21,7 +21,7 @@ Let's say the given time step is dt , the initial state is X0, the initial uncer
 
 Then without the sensor readings, X1 = F*X0 , where F operates on X such that based on its velocity and time step, it gets the next state.  
 
-Therefore P1 = F*P0*F', where F' is F transpose
+Therefore P1 = F * P0 \* F', where F' is F transpose
 
 Let the sensor readings be Z1 and its uncertainity be R.
 
@@ -30,6 +30,7 @@ Let's define a matrix K = P*((P+R)^-1).
 Combining the Gausians of both the sensor readings and the state derived from prior knowledge,
 
 X1F = X1 + K*(X1 - Z1)
+
 P1F = P1 - K*P1
 
 where X1F is a state with a better accuracy than both the initial readings.
