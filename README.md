@@ -51,7 +51,7 @@ Clone the repo
 `git clone https://www.github.com/thelethalcode/AGV-Task1.git`\
 
 Cd into the directory
-`cd AGV-Task3`\
+`cd AGV-Task3`
 
 Compile the Task
 `g++ Task3.cpp`
